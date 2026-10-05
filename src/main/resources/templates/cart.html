@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <h1>Lista de productos</h1>
+    <h1>Carrito de compras</h1>
     <table border="1">
         <tr>
             <th>ID</th>
@@ -13,13 +13,11 @@
             <td th:text="${p.nombre}"></td>
             <td th:text="${p.precio}"></td>
             <td>
-            	<a th:href="@{/products/formulario-producto/{id}(id=${p.id})}" >Editar</a>
-            	<a th:href="@{/products/delete/{id}(id=${p.id})}" >Eliminar</a>
-            	<a th:href="@{/cart/add/{id}(id=${p.id})}">Añadir al carrito</a>
+            	<a th:href="@{/cart/remove/{id}(id=${p.id})}">Remover del carrito</a>
             </td>
         </tr>
     </table>
 
-    <a th:href="@{/products/formulario-producto}">Crear Producto</a>
+    <a th:href="@{/products}">Ver Catalogo de Productos</a>
 </body>
 </html>
