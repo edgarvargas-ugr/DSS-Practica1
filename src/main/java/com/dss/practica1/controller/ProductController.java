@@ -2,6 +2,7 @@ package com.dss.practica1.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public class ProductController {
         return "productos";
     }
 
-    @GetMapping({"/formulario-producto", "/formulario-producto/{id}"})
+    @GetMapping({"/product-form", "/product-form/{id}"})
     public String getFormularioProducto(@PathVariable(required = false) Long id , Model model) {
     	
     	Producto producto = (id != null) ? productService.getProductById(id) : null;
@@ -49,7 +50,7 @@ public class ProductController {
         }
 
         model.addAttribute("producto", producto != null ? producto : new Producto());
-        return "formulario-producto";
+        return "product-form";
     }
     
     @PostMapping
@@ -60,12 +61,30 @@ public class ProductController {
     
     @PutMapping
     public String putProducto(@ModelAttribute Producto producto) {
-    	return productService.updateProduct(producto, producto.getId()) ? "redirect:/products" : "formulario-producto";
+    	return productService.updateProduct(producto, producto.getId()) ? "redirect:/products" : "product-form";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable String id) {
         productService.deleteProduct(Long.parseLong(id));
-        return "redirect:/productos";
+        return "redirect:/products";
+    }
+    
+    @GetMapping("/busqueda")
+    public String busquedaProductos(@RequestParam(required = false) String nombre, @RequestParam(required = false) Double precioMenor, @RequestParam(required = false) Double precioMayor, Model model) {
+    	if(nombre!= null) {
+    		model.addAttribute("productos", productService.getProductSearchName(nombre));
+    		model.addAttribute("nombreFiltro", nombre);
+    	}
+    	else if(precioMenor!= null || precioMayor!= null) {
+    		model.addAttribute("productos", productService.getProductRangePrice(precioMenor, precioMayor));
+    		model.addAttribute("precioMenorFiltro", precioMenor);
+    		model.addAttribute("precioMayorFiltro", precioMayor);
+    	}
+    	else {
+    		model.addAttribute("productos", productService.getAllProducts());
+    	}
+    	
+		return "productos";
     }
 }

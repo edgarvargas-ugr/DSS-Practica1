@@ -43,14 +43,36 @@ public class ProductService {
     		return false;
     	}
     	
-    	currentProduct.get().setNombre(product.getNombre());
-		currentProduct.get().setPrecio(product.getPrecio());
+    	//currentProduct.get().setNombre(product.getNombre());
+		//currentProduct.get().setPrecio(product.getPrecio());
+		
+		productRepo.save(product);
 		
     	return true;
     }
 
-    public String deleteProduct(Long id) {
+    public boolean deleteProduct(Long id) {
+    	
+    	Optional<Producto> currentProduct = productRepo.findById(id);
+    	
+    	if(currentProduct.isEmpty()) {
+    		return false;
+    	}
         productRepo.deleteById(id);
-        return id.toString();
+        return true;
+    }
+    
+    public List<Producto> getProductSearchName(String name){
+    	return productRepo.findByNombreContainingIgnoreCase(name);
+    }
+    
+    public List<Producto> getProductRangePrice(Double precioMenor, Double precioMayor){
+    	if(precioMenor == null && precioMayor != null) {
+    		return productRepo.findByPrecioLessThanEqual(precioMayor);
+    	}else if(precioMenor != null && precioMayor == null) {
+    		return productRepo.findByPrecioGreaterThanEqual(precioMenor);
+    	}
+    	
+    	return productRepo.findByPrecioBetween(precioMenor, precioMayor);
     }
 }
