@@ -5,6 +5,7 @@ import org.springframework.boot.security.autoconfigure.web.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -24,21 +25,25 @@ public class SecurityConfig {
 			HttpSecurity http) throws Exception { 
 		http 
 		.authorizeHttpRequests(auth -> auth 
-				.requestMatchers("/", "/cart/**").permitAll() 
+				.requestMatchers("/").permitAll() 
+				.requestMatchers(HttpMethod.GET, "/cart").permitAll() 
 				.requestMatchers(HttpMethod.GET, "/products").permitAll()
-				.requestMatchers(HttpMethod.GET, "/products/busqueda").permitAll() 
-				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/products/busqueda").permitAll()
+				.requestMatchers("/products/**").hasRole("ADMIN")
 				.requestMatchers("/export/**").hasRole("ADMIN")
+				.requestMatchers("/cart/**").hasAnyRole("ADMIN", "USER")
 				.requestMatchers(PathRequest.toH2Console()).permitAll()
-				.requestMatchers("/api/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+				.requestMatchers("/api/**").hasRole("ADMIN")
 				.anyRequest().authenticated() 
 				) 
 		.formLogin(form -> form 
 				.loginPage("/login").permitAll() 
 				) 
+		.httpBasic(Customizer.withDefaults())
 		.logout(logout -> logout 
 				.logoutUrl("/logout") 
-				.logoutSuccessUrl("/") 
+				.logoutSuccessUrl("/")
 				) 
 		.csrf(csrf -> csrf 
 				.ignoringRequestMatchers(PathRequest.toH2Console())

@@ -53,7 +53,19 @@
       "name": "Crear producto",
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "admin",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "admin",
+              "type": "string"
+            }
+          ]
         },
         "method": "POST",
         "header": [
@@ -83,7 +95,19 @@
       "name": "Actualizar producto",
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "admin",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "admin",
+              "type": "string"
+            }
+          ]
         },
         "method": "PUT",
         "header": [
@@ -114,7 +138,19 @@
       "name": "Eliminar producto",
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "admin",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "admin",
+              "type": "string"
+            }
+          ]
         },
         "method": "DELETE",
         "header": [],

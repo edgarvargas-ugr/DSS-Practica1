@@ -21,10 +21,14 @@
         </div>
     </nav>
 
-    <main class="container py-4">
+    <div class="container py-4">
         <h1 class="h3 mb-3">Carrito de compras</h1>
         
         <a class="btn btn-primary" th:href="@{/products}">Ver catálogo de Productos</a>
+        
+        <div class="alert alert-warning mt-3" sec:authorize="!isAuthenticated()">
+            Si quieres remover productos del carrito, inicia sesión
+        </div>
 
         <div class="card shadow-sm mb-3">
             <div class="table-responsive">
@@ -44,7 +48,8 @@
                             <td th:text="${p.precio}"></td>
                             <td>
                                 <a class="btn btn-sm btn-outline-danger"
-                                   th:href="@{/cart/remove/{id}(id=${p.id})}">Remover del carrito</a>
+                                   th:href="@{/cart/remove/{id}(id=${p.id})}"
+                                   sec:authorize="hasRole('USER') || hasRole('ADMIN')">Remover del carrito</a>
                             </td>
                         </tr>
                     </tbody>
@@ -53,7 +58,7 @@
         </div>
 
         
-    </main>
+    </div>
 
 </body>
 </html>

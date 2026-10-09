@@ -82,6 +82,10 @@
             Si quieres adicionar productos, inicia sesión como administrador
         </div>
         
+        <div class="alert alert-warning mt-3" sec:authorize="!isAuthenticated()">
+            Si quieres añadir productos al carrito, inicia sesión
+        </div>
+        
         <div class="card shadow-sm mb-4">
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle mb-0">
@@ -106,7 +110,8 @@
                                    th:href="@{/products/delete/{id}(id=${p.id})}"
                                    sec:authorize="hasRole('ADMIN')">Eliminar</a>
                                 <a class="btn btn-sm btn-success"
-                                   th:href="@{/cart/add/{id}(id=${p.id})}">Añadir al carrito</a>
+                                   th:href="@{/cart/add/{id}(id=${p.id})}"
+                                   sec:authorize="hasRole('USER') || hasRole('ADMIN')">Añadir al carrito</a>
                             </td>
                         </tr>
                     </tbody>
