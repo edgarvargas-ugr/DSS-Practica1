@@ -40,7 +40,7 @@
                 <a class="btn btn-primary btn-lg" th:href="@{/products}" sec:authorize="!hasRole('ADMIN')">Ver productos</a>
                 <a class="btn btn-primary btn-lg" th:href="@{/products}" sec:authorize="hasRole('ADMIN')">Administrar/ver productos</a>
                 <a class="btn btn-outline-secondary btn-lg" th:href="@{/cart}">Ir al carrito</a>
-                <a class="btn btn-outline-secondary btn-lg" th:href="@{/export}" sec:authorize="hasRole('ADMIN')">Exportar productos</a>
+                <a class="btn btn-outline-secondary btn-lg" th:href="@{/admin/export}" sec:authorize="hasRole('ADMIN')">Exportar productos</a>
             </div>
         </div>
     </div>

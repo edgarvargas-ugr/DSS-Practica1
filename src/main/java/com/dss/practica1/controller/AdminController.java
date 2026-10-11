@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dss.practica1.service.DatabaseExportService;
 
 @Controller
-@RequestMapping("/export")
-public class ExportController {
+@RequestMapping("/admin")
+public class AdminController {
 	
 	private final DatabaseExportService databaseExportService;
 	
-	public ExportController(DatabaseExportService databaseExportService) {
+	public AdminController(DatabaseExportService databaseExportService) {
 		this.databaseExportService = databaseExportService;
 	}
 	
-	@GetMapping
+	@GetMapping("/export")
 	public ResponseEntity<byte[]> exportar() {
 	    byte[] contenido = databaseExportService.exportDatabaseToSql();
 

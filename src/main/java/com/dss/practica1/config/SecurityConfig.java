@@ -26,20 +26,21 @@ public class SecurityConfig {
 		http 
 		.authorizeHttpRequests(auth -> auth 
 				.requestMatchers("/").permitAll() 
-				.requestMatchers(HttpMethod.GET, "/cart").permitAll() 
 				.requestMatchers(HttpMethod.GET, "/products").permitAll()
 				.requestMatchers(HttpMethod.GET, "/products/busqueda").permitAll()
 				.requestMatchers("/products/**").hasRole("ADMIN")
-				.requestMatchers("/export/**").hasRole("ADMIN")
+				.requestMatchers("/admin/export").hasRole("ADMIN")
 				.requestMatchers("/cart/**").hasAnyRole("ADMIN", "USER")
 				.requestMatchers(PathRequest.toH2Console()).permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
 				.requestMatchers("/api/**").hasRole("ADMIN")
-				.anyRequest().authenticated() 
+				.anyRequest().authenticated()
 				) 
 		.formLogin(form -> form 
-				.loginPage("/login").permitAll() 
+				.loginPage("/login").permitAll()
+				.failureUrl("/login?error")
 				) 
+		.exceptionHandling(ex -> ex.accessDeniedPage("/login?denied"))
 		.httpBasic(Customizer.withDefaults())
 		.logout(logout -> logout 
 				.logoutUrl("/logout") 
@@ -71,7 +72,12 @@ public class SecurityConfig {
 	            .password(encoder.encode("user"))
 	            .roles("USER")
 	            .build();
+	    
+	    UserDetails user2 = User.withUsername("user2")
+	            .password(encoder.encode("user2"))
+	            .roles("USER")
+	            .build();
 
-	    return new InMemoryUserDetailsManager(admin, user);
+	    return new InMemoryUserDetailsManager(admin, user, user2);
 	}
 }

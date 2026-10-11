@@ -38,14 +38,16 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Precio</th>
+                            <th>Cantidad</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="p : ${productos}">
+                        <tr th:each="item : ${productos}" th:with="p=${item.key}, cantidad=${item.value}">
                             <td th:text="${p.id}"></td>
                             <td th:text="${p.nombre}"></td>
                             <td th:text="${p.precio}"></td>
+                            <td th:text="${cantidad}"></td>
                             <td>
                                 <a class="btn btn-sm btn-outline-danger"
                                    th:href="@{/cart/remove/{id}(id=${p.id})}"

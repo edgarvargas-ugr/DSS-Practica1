@@ -1,5 +1,7 @@
 package com.dss.practica1.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,20 +21,20 @@ public class CartController {
 	}
 	
 	@GetMapping
-	public String getCart(Model model) {
-		model.addAttribute("productos", cartService.getProductsCart());
+	public String getCart(Principal user, Model model) {
+		model.addAttribute("productos", cartService.getProductsCart(user.getName()));
 		return "cart";
 	}
 	
 	@GetMapping("/add/{id}")
-	public String addCart(@PathVariable Long id, Model model) {
-		cartService.addToCart(id);
+	public String addCart(Principal user, @PathVariable Long id, Model model) {
+		cartService.addToCart(user.getName(), id);
 		return "redirect:/cart";
 	}
 	
 	@GetMapping("/remove/{id}")
-	public String removeCart(@PathVariable Long id, Model model) {
-		cartService.removeToCart(id);
+	public String removeCart(Principal user, @PathVariable Long id, Model model) {
+		cartService.removeToCart(user.getName(), id);
 		return "redirect:/cart";
 	}
 	
