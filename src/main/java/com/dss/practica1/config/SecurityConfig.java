@@ -33,6 +33,7 @@ public class SecurityConfig {
 				.requestMatchers("/cart/**").hasAnyRole("ADMIN", "USER")
 				.requestMatchers(PathRequest.toH2Console()).permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/orders").hasAnyRole("ADMIN", "USER")
 				.requestMatchers("/api/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 				) 
